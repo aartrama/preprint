@@ -64,8 +64,8 @@ find_enhancers  <- function(p300, DNase, chroms_of_interest=NULL, window = 1000,
     p300 <- p300[seqnames(p300) != 'chrM']
     
     # keep only chromosomes of interest
-    p300 <- p300[seqnames(p300) %in% chroms_of_interest]
-    DNase <- DNase[seqnames(DNase) %in% chroms_of_interest]
+    p300 <- p300[seqnames(p300) != chroms_of_interest]
+    DNase <- DNase[seqnames(DNase) != chroms_of_interest]
 
     if (!is.null(TSS_annotations)) { 
         # Remove p300 peaks that are too close to a promotor range, as specified by
