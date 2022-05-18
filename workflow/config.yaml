@@ -1,9 +1,9 @@
 # The root folder in which all the data will be kept.
 # This is something you probably need to change to fit your system.
-data_dir: /u/45/vanvlm1/unix/scratch_cs/csb/projects/enhancer_prediction/aaltorse/Data
+data_dir: /sc/arion/projects/Nestlerlab/shenl03_rna/aarthi/2022/li/preprint/Data
 
 # Cell lines relevant to the analysis.
-cell_lines: [K562, Gm12878]
+cell_lines: [K562]
 
 # Settings for profile creation
 profiles:

@@ -6,8 +6,6 @@ from snakemake.exceptions import WorkflowError
 rule preprocess:
 	input:
 		expand(f'{data_dir}/K562/bam_shifted/{{data_type}}.bam', data_type=all_data_types('K562')),
-		expand(f'{data_dir}/Gm12878/bam_shifted/{{data_type}}.bam', data_type=all_data_types('Gm12878')),
-
 
 # Step 0: Download the data
 rule download:

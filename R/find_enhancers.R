@@ -47,7 +47,7 @@
 #' @importFrom IRanges end findOverlaps from resize start start<- width width<-
 #' @importFrom GenomicRanges strand<- seqnames seqinfo mcols mcols<-
 #' @importFrom GenomeInfoDb seqlengths seqlengths<-
-find_enhancers  <- function(p300, DNase, window = 1000, N = NULL,
+find_enhancers  <- function(p300, DNase, chroms_of_interest=NULL, window = 1000, N = NULL,
                             TSS_annotations = NULL, min_dist_to_promoter = 2000,
                             blacklist = NULL, verbose = TRUE)
 {
@@ -62,6 +62,10 @@ find_enhancers  <- function(p300, DNase, window = 1000, N = NULL,
 
     # TODO: why does chrM need to be removed?
     p300 <- p300[seqnames(p300) != 'chrM']
+    
+    # keep only chromosomes of interest
+    p300 <- p300[seqnames(p300) %in% chroms_of_interest]
+    DNase <- DNase[seqnames(DNase) %in% chroms_of_interest]
 
     if (!is.null(TSS_annotations)) { 
         # Remove p300 peaks that are too close to a promotor range, as specified by

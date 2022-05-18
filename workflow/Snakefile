@@ -32,7 +32,7 @@ def all_data_types(cell_line, exclude=None):
 
 # Default rule to run the entire analysis pipeline
 rule all:
-	input: f'{data_dir}/K562/data_R/predictions.RData'
+	input: f'{data_dir}/K562/data_R/profiles.rds'
 
 # These include files contain the rules for the individual steps
 include: 'preprocessing.smk'

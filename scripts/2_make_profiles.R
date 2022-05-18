@@ -19,6 +19,8 @@ chroms_of_interest = c('chr1',  'chr2',  'chr3',  'chr4',  'chr5',  'chr6',
                        'chr13', 'chr14', 'chr15', 'chr16', 'chr17', 'chr18',
                        'chr19', 'chr20', 'chr21', 'chr22', 'chrX') 
 
+chroms_of_interest = c('chr1',  'chr2',  'chr3',  'chr4',  'chr5',  'chr6','chr7')
+
 # Read TSS annotations to extract TSS of protein coding genes
 TSS_annotations <- TSS_protein_coding(paste0(config$data_dir, '/GENCODE_TSS/gencode.v27lift37.annotation.gtf.gz'))
 
@@ -37,13 +39,15 @@ for (blacklist_type in c('DacMapabilityConsensus', 'DukeMapabilityRegions')) {
 cat(' done.\n')
 
 # Find interesting sites
-enhancers <- find_enhancers(p300, DNase, window = config$profiles$window_size, N = config$profiles$num_enhancers,
+enhancers <- find_enhancers(p300, DNase, chroms_of_interest=chroms_of_interest,
+		            window = config$profiles$window_size, N = config$profiles$num_enhancers,
                             TSS_annotations = TSS_annotations, min_dist_to_promoter = config$profiles$min_dist_to_promoter,
                             blacklist = blacklist)
 
 promoters <- find_promoters(TSS_annotations, DNase, 
                             between_promoter_distance = config$profiles$min_dist_between_promoters,
-                            window = config$profiles$window_size, N = config$profiles$num_promoters,
+                            chroms_of_interest=chroms_of_interest,
+			    window = config$profiles$window_size, N = config$profiles$num_promoters,
                             blacklist = blacklist)
 
 random_regions <- find_random(config$profiles$window_size, N = config$profiles$num_random_pure,

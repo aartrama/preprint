@@ -43,11 +43,15 @@
 #'
 #' @importFrom GenomicRanges mcols
 #' @importFrom IRanges from to resize findOverlaps
-find_promoters <- function(TSS_annotations, DNase, window = 1000, N = NULL,
+find_promoters <- function(TSS_annotations, DNase,chroms_of_interest=NULL, window = 1000, N = NULL,
                            between_promoter_distance = 2000, blacklist = NULL,
                            verbose = TRUE)
 {
     if (verbose) cat('Finding suitable promoter sites:\n')
+	
+    # keep only chromosomes of interest
+    TSS_annotations <- TSS_annotations[seqnames(TSS_annotations) %in% chroms_of_interest]
+    DNase <- DNase[seqnames(DNase) %in% chroms_of_interest]
 
     # Find the closest overlap between DNase and TSS_annotations
     dist <- GenomicRanges::distanceToNearest(DNase, TSS_annotations, ignore.strand = TRUE)

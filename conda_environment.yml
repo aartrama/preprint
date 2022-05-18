@@ -30,3 +30,4 @@ dependencies:
 
   # For building the package
   - r-devtools
+

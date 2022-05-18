@@ -1,6 +1,6 @@
 # The default rule that will do the entire prediction pipeline
 rule predict:
-	input: f'{data_dir}/K562/data_R/profiles.rds'
+	input: f'{data_dir}/K562/data_R/predictions.RData'
 
 # Rules for downloading various files
 rule download_gencode:
@@ -46,4 +46,11 @@ rule make_profiles:
 	shell:
 		f'Rscript {scripts_dir}/2_make_profiles.R'
 
-
+rule train_predict:
+	input:
+		code=f'{scripts_dir}/3_train_predict.R',
+		profiles=f'{data_dir}/{{cell_line}}/data_R/profiles.rds',
+	output:
+		f'{data_dir}/{{cell_line}}/data_R/predictions.RData'
+	shell:
+		f'Rscript {scripts_dir}/3_train_predict.R'
