@@ -48,11 +48,9 @@ find_promoters <- function(TSS_annotations, DNase,chroms_of_interest=NULL, windo
                            verbose = TRUE)
 {
     if (verbose) cat('Finding suitable promoter sites:\n')
-	
     # keep only chromosomes of interest
-    TSS_annotations <- TSS_annotations[seqnames(TSS_annotations) != chroms_of_interest]
-    DNase <- DNase[seqnames(DNase) != chroms_of_interest]
-
+    TSS_annotations <- TSS_annotations[seqnames(TSS_annotations) %in% chroms_of_interest]
+    DNase <- DNase[seqnames(DNase) %in% chroms_of_interest]
     # Find the closest overlap between DNase and TSS_annotations
     dist <- GenomicRanges::distanceToNearest(DNase, TSS_annotations, ignore.strand = TRUE)
     TSS_with_DNase <- TSS_annotations[to(dist)]
@@ -61,6 +59,7 @@ find_promoters <- function(TSS_annotations, DNase,chroms_of_interest=NULL, windo
 
     # Compute the distance from the peak in the DNase to the corresponding TSS_annotations
     DNase_peak <- DNase
+    
     start(DNase_peak) <- start(DNase_peak) + DNase_peak$peak
     width(DNase_peak) <- 1
     dist_peak <- GenomicRanges::distanceToNearest(DNase_peak, TSS_annotations, ignore.strand = TRUE)

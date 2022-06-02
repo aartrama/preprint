@@ -1,6 +1,6 @@
 library(yaml, quietly = TRUE)
 library(argparser, quietly = TRUE)
-library(BSgenome.Hsapiens.UCSC.hg19, quietly = TRUE)
+library(BSgenome.Hsapiens.UCSC.hg38, quietly = TRUE)
 library(GenomicRanges, quietly = TRUE)
 library(Rsamtools, quietly = TRUE)
 library(preprint, quietly = TRUE)
@@ -16,7 +16,7 @@ cell_line <- 'K562'
 chr_names <- c('chr1','chr2','chr3',  'chr4',  'chr5','chr6',  'chr7',  'chr8',
                'chr9',  'chr10', 'chr11', 'chr12', 'chr13', 'chr14', 'chr15',
                'chr16', 'chr17','chr18', 'chr19',   'chr20', 'chr21', 'chr22',
-               'chrX') 
+               'chrX', 'chrY') 
 regions <- GRanges(chr_names, IRanges(start = 1, end = seqlengths(Hsapiens)[chr_names]))
 regions <- slidingWindows(regions, width = config$profiles$bin_size, step = config$profiles$bin_size)
 regions <- regions[width(regions) == config$profiles$bin_size]  # Remove incomplete bins
@@ -33,12 +33,12 @@ yieldSize(control) <- 1E6L
 profiles_control <- create_profiles(regions, bam_file = control, bin_size = config$profiles$bin_size, reference = NULL, ignore_strand = TRUE,
                                     five_prime_end=config$profiles$five_prime_end)
 
-cat('Computing whole genome coverage for input polymerase...\n')
-input_ind <- grep('Input', bam_files)
-input <- BamFile(bam_files[input_ind])
-yieldSize(input) <- 1E6L
-profiles_input <- create_profiles(regions, bam_file = input, bin_size = config$profiles$bin_size, reference = NULL, ignore_strand = TRUE,
-                                  five_prime_end=config$profiles$five_prime_end)
+#cat('Computing whole genome coverage for input polymerase...\n')
+#input_ind <- grep('Input', bam_files)
+#input <- BamFile(bam_files[input_ind])
+#yieldSize(input) <- 1E6L
+#profiles_input <- create_profiles(regions, bam_file = input, bin_size = config$profiles$bin_size, reference = NULL, ignore_strand = TRUE,
+#                                  five_prime_end=config$profiles$five_prime_end)
 
 # Create profiles for the rest of the BAM files
 profiles = list()
@@ -55,7 +55,7 @@ for (filename in bam_files) {
     if (grepl('Dnase', name)) {
         reference <- NULL
     } else if (grepl('Pol', name)) {
-        reference <- profiles_input
+        reference <- NULL
     } else {
         reference <- profiles_control
     }

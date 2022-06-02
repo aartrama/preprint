@@ -3,15 +3,6 @@ rule predict:
 	input: f'{data_dir}/K562/data_R/profiles.rds'
 
 # Rules for downloading various files
-rule download_gencode:
-	input:
-	output: f'{data_dir}/GENCODE_TSS/gencode.v27lift37.annotation.gtf.gz'
-	shell: 'wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_27/GRCh37_mapping/gencode.v27lift37.annotation.gtf.gz -O {output}'
-
-rule download_blacklists:
-	input:
-	output: f'{data_dir}/blacklists/{{file}}'
-	shell: 'wget http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/wgEncodeMapability/{wildcards.file} -O {output}'
 
 # Function that finds all the available BAM files
 def all_bam_files(wildcards):
@@ -35,11 +26,10 @@ rule make_profiles:
 	input:
 		code=f'{scripts_dir}/2_make_profiles.R',
 		bam_files=all_bam_files,
-		p300=f'{data_dir}/{{cell_line}}/raw_data/wgEncodeAwgTfbsSydhK562P300IggrabUniPk.narrowPeak.gz',
-		DNase=f'{data_dir}/{{cell_line}}/raw_data/wgEncodeOpenChromDnaseK562PkV2.narrowPeak.gz',
-		blacklist_Dac=f'{data_dir}/blacklists/wgEncodeDacMapabilityConsensusExcludable.bed.gz',
-		blacklist_Duke=f'{data_dir}/blacklists/wgEncodeDukeMapabilityRegionsExcludable.bed.gz',
-		TSS_annotation=f'{data_dir}/GENCODE_TSS/gencode.v27lift37.annotation.gtf.gz',
+		p300=f'{data_dir}/{{cell_line}}/raw_data/ENCFF702XPO-p300.narrowPeak.gz',
+		DNase=f'{data_dir}/{{cell_line}}/raw_data/ENCFF274YGF-dnaseq.narrowPeak.gz',
+		blacklist_Dac=f'{data_dir}/blacklists/hg38-blacklist.v2.bed.gz',
+		TSS_annotation=f'{data_dir}/GENCODE_TSS/gencode.v40.annotation.gtf.gz',
 		whole_genome_cov=f'{data_dir}/{{cell_line}}/data_R/whole_genome_coverage.rds',
 	output:
 		f'{data_dir}/{{cell_line}}/data_R/profiles.rds'

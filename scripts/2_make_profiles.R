@@ -32,10 +32,12 @@ cat(' done.\n')
 # Blacklist to remove problematic sites
 cat('Creating blacklist...')
 blacklist = GRanges()
-for (blacklist_type in c('DacMapabilityConsensus', 'DukeMapabilityRegions')) {
-    blacklist_file <- paste0(config$data_dir, '/blacklists/wgEncode', blacklist_type, 'Excludable.bed.gz')
+
+for (blacklist_type in c('hg38-blacklist.v2')) {
+    blacklist_file <- paste0(config$data_dir, '/blacklists/', blacklist_type, '.bed.gz')
     blacklist = union(blacklist, rtracklayer::import(blacklist_file))
 }
+
 cat(' done.\n')
 
 # Find interesting sites
@@ -88,11 +90,11 @@ profiles_control <- create_profiles(sites, bam_file = BamFile(bam_files[control_
                                     reference = NULL, ignore_strand = TRUE, five_prime_end=config$profiles$five_prime_end)
 cat(' done.\n')
 
-cat('Reading input polymerase...')
-input_ind <- grep('Input', bam_files)
-profiles_input <- create_profiles(sites, bam_file = BamFile(bam_files[input_ind]),
-                                  reference = NULL, ignore_strand = TRUE, five_prime_end=config$profiles$five_prime_end)
-cat(' done.\n')
+#cat('Reading input polymerase...')
+#input_ind <- grep('Input', bam_files)
+#profiles_input <- create_profiles(sites, bam_file = BamFile(bam_files[input_ind]),
+#                                  reference = NULL, ignore_strand = TRUE, five_prime_end=config$profiles$five_prime_end)
+#cat(' done.\n')
 
 # Create profiles for the rest of the histones
 for (filename in bam_files) {
@@ -102,7 +104,7 @@ for (filename in bam_files) {
     if (length(grep('Dnase|Nsome', name)) > 0) {
         reference <- NULL
     } else if (length(grep('Pol', name)) > 0) {
-        reference <- profiles_input
+        reference <- NULL
     } else {
         reference <- profiles_control
     }

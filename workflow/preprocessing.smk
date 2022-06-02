@@ -8,64 +8,34 @@ rule preprocess:
 		expand(f'{data_dir}/K562/bam_shifted/{{data_type}}.bam', data_type=all_data_types('K562')),
 
 # Step 0: Download the data
-rule download:
-	input:
-	output: f'{data_dir}/{{cell_line}}/raw_data/{{fname, [^/]+}}'
-	message: 'Downloading {wildcards.fname}'
-	run:
-		URL = all_samples.query(f"cell_line=='{wildcards.cell_line}' and fname=='{wildcards.fname}'")['URL'].item()
-		shell(f'wget {URL} -O {output}')
 
-
-rule download_bowtie2_index:
-	input:
-	output: f'{data_dir}/bowtie2-index/hg19.zip'
-	shell: 'wget https://genome-idx.s3.amazonaws.com/bt/hg19.zip -O {output}'
-
-
-rule unzip_bowtie2_index:
-	input:
-	    file = f'{data_dir}/bowtie2-index/hg19.zip'
-	output:
-	    folder = directory(f'{data_dir}/bowtie2-index/hg19/'),
-		output1 = f'{data_dir}/bowtie2-index/hg19/hg19.1.bt2',
-		output2 = f'{data_dir}/bowtie2-index/hg19/hg19.2.bt2',
-		output3 = f'{data_dir}/bowtie2-index/hg19/hg19.3.bt2',
-		output4 = f'{data_dir}/bowtie2-index/hg19/hg19.4.bt2',
-		output5 = f'{data_dir}/bowtie2-index/hg19/hg19.rev.1.bt2',
-		output6 = f'{data_dir}/bowtie2-index/hg19/hg19.rev.2.bt2',
-		output7 = f'{data_dir}/bowtie2-index/hg19/make_hg19.sh',
-	shell: 'unzip {input} -d {output.folder} -x {output.output1} {output.output2} {output.output3} {output.output4} {output.output5} {output.output6} {output.output7}'
-
-
-
-
-
-# Step 1: Align the reads
 def find_raw_files(wildcards):
 	"""
 	Uses the all_samples table to find the raw file(s) corresponding to a given
 	sample. These is either a .fastq.gz file or both a .bam and .bam.bai file.
 	"""
 	fnames = list()
-	for url in all_samples.query(f"cell_line=='{wildcards.cell_line}' and sample=='{wildcards.sample}'")['URL']:
-		_, fname = url.rsplit('/', 1)
-		fnames.append(f'{data_dir}/{wildcards.cell_line}/raw_data/{fname}')
+	for filename in all_samples.query(f"cell_line=='{wildcards.cell_line}' and sample=='{wildcards.sample}'")['fname']:
+		
+		fnames.append(f'{data_dir}/{wildcards.cell_line}/raw_data/{filename}')
 	return fnames
+
+rule download:
+	input:
+	output: f'{data_dir}/{{cell_line}}/raw_data/{{fname, [^/]+}}'
+	message: 'Downloading {wildcards.fname}'
+	run:
+		shell(f'echo {output}')
+
+
+# Step 1: Align the reads
 
 def get_ext(fname):
 	return fname.rsplit('/', 1)[-1].split('.', 1)[-1]
 
 rule align_reads:
 	input:
-		find_raw_files,
-		index1 = f'{data_dir}/bowtie2-index/hg19/hg19.1.bt2',
-		index2 = f'{data_dir}/bowtie2-index/hg19/hg19.2.bt2',
-		index3 = f'{data_dir}/bowtie2-index/hg19/hg19.3.bt2',
-		index4 = f'{data_dir}/bowtie2-index/hg19/hg19.4.bt2',
-		index5 = f'{data_dir}/bowtie2-index/hg19/hg19.rev.1.bt2',
-		index6 = f'{data_dir}/bowtie2-index/hg19/hg19.rev.2.bt2',
-		index7 = f'{data_dir}/bowtie2-index/hg19/make_hg19.sh'
+		find_raw_files
 	output:
 		bam = f'{data_dir}/{{cell_line}}/bam_replicates/{{sample}}.bam',
 		bai = f'{data_dir}/{{cell_line}}/bam_replicates/{{sample}}.bam.bai',
@@ -156,7 +126,7 @@ rule phantompeakqualtools:
 		'''
 
 # Step 4: Shift the reads
-genome_file = f'{project_dir}/bedtools_genomes/human.hg19.genome'
+genome_file = f'{project_dir}/bedtools_genomes/hg38.chrom.sizes'
 
 rule estimate_shifts:
 	input:
@@ -182,9 +152,7 @@ rule bed_to_bam:
 		bai=f'{data_dir}/{{cell_line}}/bam_shifted/{{data_type}}.bam.bai',
 	shell:
 		r'''
-		bedtools bedtobam -i {input} -g {genome_file} \
-		| samtools sort - \
-		> {output.bam}
+		bedtools bedtobam -i {input} -g {genome_file} | samtools sort - > {output.bam}
 		samtools index {output.bam}
 		'''
 

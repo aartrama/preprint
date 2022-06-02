@@ -53,7 +53,6 @@ find_enhancers  <- function(p300, DNase, chroms_of_interest=NULL, window = 1000,
 {
     if (verbose) cat('Finding suitable enhancer sites:\n')
     strand(p300) <- '*'  # This is important
-
     # Trim the p300 ranges to just the peak values
     start(p300) <- start(p300) + p300$peak
     width(p300) <- 1
@@ -64,8 +63,8 @@ find_enhancers  <- function(p300, DNase, chroms_of_interest=NULL, window = 1000,
     p300 <- p300[seqnames(p300) != 'chrM']
     
     # keep only chromosomes of interest
-    p300 <- p300[seqnames(p300) != chroms_of_interest]
-    DNase <- DNase[seqnames(DNase) != chroms_of_interest]
+    p300 <- p300[seqnames(p300) %in% chroms_of_interest]
+    DNase <- DNase[seqnames(DNase) %in% chroms_of_interest]
 
     if (!is.null(TSS_annotations)) { 
         # Remove p300 peaks that are too close to a promotor range, as specified by
@@ -88,7 +87,7 @@ find_enhancers  <- function(p300, DNase, chroms_of_interest=NULL, window = 1000,
     enhancers <- resize(enhancers, width = window, fix='center')
 
     # Remove enhancers which window falls outside the bounds of the sequence
-    human.chromlens <- seqlengths(BSgenome.Hsapiens.UCSC.hg19::Hsapiens)
+    human.chromlens <- seqlengths(BSgenome.Hsapiens.UCSC.hg38::Hsapiens)
     seqlengths(enhancers) <- human.chromlens[seqnames(seqinfo(enhancers))]
     seq_lengths <- as.numeric(seqlengths(enhancers)[as.vector(seqnames(enhancers))])
     enhancers <- enhancers[start(enhancers) >= 1 & end(enhancers) <= seq_lengths]

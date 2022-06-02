@@ -1,16 +1,7 @@
-cell_line	data_type	sample	fname	URL
-K562	Control	wgEncodeBroadHistoneK562ControlStdRawDataRep1	wgEncodeBroadHistoneK562ControlStdRawDataRep1.fastq.gz	http://hgdownload.soe.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHistone/wgEncodeBroadHistoneK562ControlStdRawDataRep1.fastq.gz
-K562	H2az	wgEncodeBroadHistoneK562H2azStdRawDataRep1	wgEncodeBroadHistoneK562H2azStdRawDataRep1.fastq.gz	http://hgdownload.soe.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHistone/wgEncodeBroadHistoneK562H2azStdRawDataRep1.fastq.gz
-K562	H2az	wgEncodeBroadHistoneK562H2azStdRawDataRep2	wgEncodeBroadHistoneK562H2azStdRawDataRep2.fastq.gz	http://hgdownload.soe.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHistone/wgEncodeBroadHistoneK562H2azStdRawDataRep2.fastq.gz
-K562	H3k4me1	wgEncodeBroadHistoneK562H3k4me1StdRawDataRep1	wgEncodeBroadHistoneK562H3k4me1StdRawDataRep1.fastq.gz	http://hgdownload.soe.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHistone/wgEncodeBroadHistoneK562H3k4me1StdRawDataRep1.fastq.gz
-K562	H3k4me2	wgEncodeBroadHistoneK562H3k4me2StdRawDataRep1	wgEncodeBroadHistoneK562H3k4me2StdRawDataRep1.fastq.gz	http://hgdownload.soe.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHistone/wgEncodeBroadHistoneK562H3k4me2StdRawDataRep1.fastq.gz
-K562	Pol2RawData	wgEncodeSydhTfbsK562Pol2RawDataRep1	wgEncodeSydhTfbsK562Pol2RawDataRep1.fastq.gz	http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/wgEncodeSydhTfbs/wgEncodeSydhTfbsK562Pol2RawDataRep1.fastq.gz
-K562	Pol2RawData	wgEncodeSydhTfbsK562Pol2RawDataRep2	wgEncodeSydhTfbsK562Pol2RawDataRep2.fastq.gz	http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/wgEncodeSydhTfbs/wgEncodeSydhTfbsK562Pol2RawDataRep2.fastq.gz
-K562			wgEncodeOpenChromDnaseK562PkV2.narrowPeak.gz	http://hgdownload.soe.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeOpenChromDnase/wgEncodeOpenChromDnaseK562PkV2.narrowPeak.gz
-K562			wgEncodeAwgTfbsSydhK562P300IggrabUniPk.narrowPeak.gz	http://hgdownload.soe.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeAwgTfbsUniform/wgEncodeAwgTfbsSydhK562P300IggrabUniPk.narrowPeak.gz
-K562	Nsome	wgEncodeSydhNsomeK562AlnRep1	wgEncodeSydhNsomeK562AlnRep1.bam	http://hgdownload.soe.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeSydhNsome/wgEncodeSydhNsomeK562AlnRep1.bam
-K562	Nsome	wgEncodeSydhNsomeK562AlnRep1	wgEncodeSydhNsomeK562AlnRep1.bam.bai	http://hgdownload.soe.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeSydhNsome/wgEncodeSydhNsomeK562AlnRep1.bam.bai
-K562	Nsome	wgEncodeSydhNsomeK562AlnRep2	wgEncodeSydhNsomeK562AlnRep2.bam	http://hgdownload.soe.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeSydhNsome/wgEncodeSydhNsomeK562AlnRep2.bam
-K562	Nsome	wgEncodeSydhNsomeK562AlnRep2	wgEncodeSydhNsomeK562AlnRep2.bam.bai	http://hgdownload.soe.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeSydhNsome/wgEncodeSydhNsomeK562AlnRep2.bam.bai
-K562	InputV2	wgEncodeSydhTfbsK562InputV2RawDataRep1	wgEncodeSydhTfbsK562InputV2RawDataRep1.fastq.gz	http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/wgEncodeSydhTfbs/wgEncodeSydhTfbsK562InputV2RawDataRep1.fastq.gz
-K562	InputV2	wgEncodeSydhTfbsK562InputV2RawDataRep2	wgEncodeSydhTfbsK562InputV2RawDataRep2.fastq.gz	http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/wgEncodeSydhTfbs/wgEncodeSydhTfbsK562InputV2RawDataRep2.fastq.gz
+cell_line	data_type	sample	fname
+K562	Control	ControlRep1	Control_rep1.bam
+K562	Control	ControlRep1	Control_rep1.bam.bai
+K562	H2AFZ	H2AFZRep1	H2AFZ_rep1.bam
+K562			ENCFF274YGF-dnaseq.narrowPeak.gz
+K562			ENCFF702XPO-p300.narrowPeak.gz
+K562	H2AFZ	H2AFZRep1	H2AFZ_rep1.bam.bai

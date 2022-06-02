@@ -57,7 +57,7 @@ find_random <- function(window = 1000, N = NULL,
                                'chr13', 'chr14', 'chr15', 'chr16', 'chr17',
                                'chr18', 'chr19', 'chr20', 'chr21', 'chr22', 'chrX')
     }
-    whole_genome <- GenomicRanges::GRanges(chroms_of_interest, IRanges(start=1, end=seqlengths(BSgenome.Hsapiens.UCSC.hg19::Hsapiens)[chroms_of_interest]))
+    whole_genome <- GenomicRanges::GRanges(chroms_of_interest, IRanges(start=1, end=seqlengths(BSgenome.Hsapiens.UCSC.hg38::Hsapiens)[chroms_of_interest]))
 
     if (is.null(blacklist)) {
         blacklist = GenomicRanges::GRanges()
